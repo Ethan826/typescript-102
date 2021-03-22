@@ -1,0 +1,346 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage{minted,tcolorbox,ulem}
+% \usepackage{cases}
+
+\title{TypeScript 102}
+\author{Ethan Kent}
+\institute{Spoonflower}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}[fragile]
+  \frametitle{Generics}
+
+  IN A WORLD WITHOUT ABSTRACTION OVER VALUES\ldots \\
+
+  \begin{minted}{typescript}
+const doubleOne = () => 2;
+const doubleTwo = () => 3;
+const doubleThree = () => 6;
+
+// ... approximately infinity lines later:
+
+const tripleOne = () => 3;
+const tripleTwo = () => 6;
+const tripleThree = () => 9;
+  \end{minted}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Generics, continued}
+
+  Why is it hard? No abstracting over values. Really we're just using
+  gussied-up constants.
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Generics, continued}
+  Futhermore, if we invented new value, we'll have to implement the relevant
+  ``functions'': \\
+
+  \begin{minted}{typescript}
+const TheNumberBlumpflorp = "Blumpflorp";
+
+const doubleBlumpflorp = () => "BlumpflorpTimes2";
+const tripleBlumpflorp = () => "BlumpflorpTimes3";
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Generics, continued}
+
+  IN A WORLD WITHOUT ABSTRACTION OVER VALUES, ONE RENEGADE PROGRAMMER
+  INVENTED FUNCTIONS\ldots \\
+
+  \begin{minted}{typescript}
+const doubleIt = (input: number): number => 2 * input;
+
+doubleIt(4); // => 8
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Generics, continued}
+
+  Some terminology: \texttt{input} is a \textit{parameter}. (Think \textit{p}
+  for \textit{p}otential.) \\
+
+  \begin{minted}{typescript}
+const doubleIt = (input: number): number => 2 * input;
+  \end{minted}
+
+  \vspace{1em}
+
+  \begin{tcolorbox}
+    Dearest TypeScript: \\
+
+    I shall write you in the future and tell you what value to bind to
+    \texttt{input}. Until then, all my love. \\
+
+    Forever yours (as I am \texttt{const} bound), \\
+    \texttt{doubleIt}, function.
+  \end{tcolorbox}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Generics, continued}
+
+  Some more terminology: the thing inside the parentheses is an
+  \textit{argument}. (Think \textit{a} for \textit{a}ctual.)
+
+  \vspace{1em}
+
+  \begin{minted}{typescript}
+doubleIt(4); // => 8
+  \end{minted}
+
+  \vspace{1em}
+
+  \begin{tcolorbox}
+    \small
+    Most Honorable \texttt{doubleIt}: \\
+
+    I write on behalf of TypeScript. \\
+
+    I am in receipt of the missive of last clock tick. It is with pleasure that
+    I have bound the number \texttt{4} to \texttt{input}, and proceededing,
+    \textit{mutatis mutandis}, in the witty \& delightful \& v. droll manner
+    that you have prescribed, thereby obtained the result \texttt{8}. \\
+
+    Yr.\ faithful \& obedient servant, \&c., \\
+    The JavaScript Runtime \\
+  \end{tcolorbox}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Generics, continued}
+
+  What did we just learn? \\
+
+  \begin{itemize}
+    \item If we can't abstract over values, the programmer, language, or
+          framework must explicitly define the cases (as with
+          \texttt{doubleOne} and \texttt{tripleTwo}).
+    \item If we can't abstract over values, a language or framework cannot
+          support operations with user-defined values, so the programmer must
+          provide all implementations she will rely on (as with the new
+          number \texttt{Blumpflorp}).
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Generics, continued}
+
+  \begin{minted}{typescript}
+const firstName: string | undefined | null =
+  getFirstName();
+
+const lastName: string | undefined | null =
+  getFirstName();
+  \end{minted}
+
+  \vspace{1em}
+
+  Annoy-ing! How about this: \\
+
+  \begin{minted}{typescript}
+type MaybeString = string | undefined | null;
+
+const firstName: MaybeString = getFirstName();
+const lastName: MaybeString = getFirstName();
+  \end{minted}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Generics, continued}
+  IN A WORLD WITHOUT ABSTRACTION OVER \sout{VALUES} TYPES\ldots\footnote{We
+    don't actually have to imagine. This dystopian world is real. It is a
+    place of weeping and gnashing of teeth: a place called Golang.} \\
+
+  Imagine we whip up a library for this \textit{Maybe} idea.
+
+  \begin{minted}{typescript}
+type MaybeString = String | undefined | null;
+type MaybeNumber = Number | undefined | null;
+type MaybeBoolean = Boolean | undefined | null;
+type MaybeSymbol = Symbol | undefined | null;
+type MaybeObject = Object | undefined | null;
+  \end{minted}
+  \vdots
+
+  \vspace{1em}
+
+  \begin{tcolorbox}
+    If we can't abstract over \sout{values} types, the programmer, language,
+    or framework must explicitly define the cases.
+  \end{tcolorbox}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Generics, continued}
+  \small
+  IN A WORLD WITHOUT ABSTRACTION OVER \sout{VALUES} TYPES\ldots \\
+
+  But now our user has defined a \texttt{Name} interface. Our library is of
+  no help, except as inspiration. Our user must implement \texttt{MaybeName}
+  himself: \\
+
+  \begin{minted}{typescript}
+interface Name {
+  givenName: string;
+  familyName: string;
+}
+
+type MaybeName = Name | undefined | null;
+  \end{minted}
+
+  \vspace{1em}
+
+  \begin{tcolorbox}
+    If we can't abstract over \sout{values} types, a language or framework
+    cannot support operations with user-defined \sout{values} types.
+  \end{tcolorbox}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Generics, continued}
+
+  IN A WORLD WITHOUT ABSTRACTION OVER \sout{VALUES} TYPES, ONE RENEGADE
+  PROGRAMMER INVENTED \sout{FUNCTIONS} GENERICS\ldots \\
+
+  \begin{minted}{typescript}
+type Maybe<T> = T | undefined | null;
+
+type MaybeString = Maybe<String>;
+type MaybeName = Maybe<Name>;
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Generics, continued}
+
+  Some terminology: \texttt{T} is a \emph{type} \textit{parameter}. (Think
+  \textit{p} for \textit{p}otential.) \\
+
+  \begin{minted}{typescript}
+type Maybe<T> = T | undefined | null;
+  \end{minted}
+
+  \vspace{1em}
+
+  \begin{tcolorbox}
+    Dearest TypeScript: \\
+
+    I shall write you in the future and tell you what \sout{value} type to
+    bind to \texttt{T}. Until then, all my love. \\
+
+    Forever yours, \\
+    \texttt{Maybe}, generic type.
+  \end{tcolorbox}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Generics, continued}
+  \small
+
+  Some more terminology: \texttt{String} is a \emph{type} \textit{argument}.
+  (Think \textit{a} for \textit{a}ctual.)
+
+  \vspace{1em}
+
+  \footnotesize
+  \begin{minted}{typescript}
+type MaybeString = Maybe<String>; // => String | undefined | null
+  \end{minted}
+  \small
+
+  \vspace{1em}
+
+  \begin{tcolorbox}
+    Most Honorable \texttt{Maybe}: \\
+
+    I am in receipt of your compile-time missive. It is with pleasure that
+    I have bound the type \texttt{String} to \texttt{T}, and proceeding,
+    \textit{mutatis mutandis}, in the witty \& delightful \& v. droll manner
+    that you have prescribed, thereby obtained the result
+    \texttt{String | undefined | null}. \\
+
+    Yr.\ faithful \& obedient servant, \&c., \\
+    The TypeScript Compiler\footnote{Oooh, interesting, this is a little
+      different than last time. Is this---dare \\ I even hope---foreshadowing
+      a coming topic?}
+  \end{tcolorbox}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Generics, continued}
+
+  So generics are like functions, except: \\
+
+  \begin{itemize}
+    \item You pass in a type instead of a value.
+    \item You use \texttt{<} and \texttt{>} instead of \texttt{(} and
+          \texttt{)}.
+    \item Instead of returning a value, the expression returns a type.
+  \end{itemize}
+\end{frame}
+
+% \begin{frame}[fragile]
+%   \frametitle{Generics, continued}
+
+%   Some more terminology: the thing inside the parentheses is an
+%   \textit{argument}. (Think \textit{a} for \textit{a}ctual.)
+
+%   \vspace{1em}
+
+%   \begin{minted}{typescript}
+% doubleIt(4); // => 8
+%   \end{minted}
+
+% \end{frame}
+
+\begin{frame}
+  \frametitle{Runtime vs.\ Compile Time}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Utility Types}
+\end{frame}
+
+\begin{frame}
+  \frametitle{React}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Index Types}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\texttt{const} and \texttt{readonly}}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Type Guards}
+\end{frame}
+
+\end{document}
+
+% \begin{equation*}
+%   doubleIt(x)=\begin{cases}
+%     2 \quad      & \text{if} \, x = 1 \\
+%     4 \quad      & \text{if} \, x = 2 \\
+%     6 \quad      & \text{if} \, x = 3 \\
+%     8 \quad      & \text{if} \, x = 4 \\
+%     \vdots \quad & \vdots
+%   \end{cases}
+% \end{equation*}

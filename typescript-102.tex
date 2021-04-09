@@ -1,8 +1,8 @@
-\documentclass{beamer}
+\documentclass[aspectratio=169]{beamer}
 
 \usepackage[utf8]{inputenc}
-\usepackage{minted,tcolorbox,ulem}
-% \usepackage{cases}
+\usepackage{minted,tcolorbox,ulem,listings}
+\usepackage{hyperref}
 
 \title{TypeScript 102}
 \author{Ethan Kent}
@@ -20,7 +20,7 @@
 
   \begin{minted}{typescript}
 const doubleOne = () => 2;
-const doubleTwo = () => 3;
+const doubleTwo = () => 4;
 const doubleThree = () => 6;
 
 // ... approximately infinity lines later:
@@ -41,14 +41,14 @@ const tripleThree = () => 9;
 
 \begin{frame}[fragile]
   \frametitle{Generics, continued}
-  Futhermore, if we invented new value, we'll have to implement the relevant
-  ``functions'': \\
+  Futhermore, if we invented a new kind of number, we'll have to implement
+  the relevant ``functions'': \\
 
   \begin{minted}{typescript}
-const TheNumberBlumpflorp = "Blumpflorp";
+const i = "i";
 
-const doubleBlumpflorp = () => "BlumpflorpTimes2";
-const tripleBlumpflorp = () => "BlumpflorpTimes3";
+const doubleI = () => "2i";
+const tripleI = () => "3i";
   \end{minted}
 \end{frame}
 
@@ -131,7 +131,7 @@ doubleIt(4); // => 8
     \item If we can't abstract over values, a language or framework cannot
           support operations with user-defined values, so the programmer must
           provide all implementations she will rely on (as with the new
-          number \texttt{Blumpflorp}).
+          number \texttt{i}).
   \end{itemize}
 \end{frame}
 
@@ -139,11 +139,9 @@ doubleIt(4); // => 8
   \frametitle{Generics, continued}
 
   \begin{minted}{typescript}
-const firstName: string | undefined | null =
-  getFirstName();
+const firstName: string | undefined | null = getFirstName();
 
-const lastName: string | undefined | null =
-  getFirstName();
+const lastName: string | undefined | null = getLastName();
   \end{minted}
 
   \vspace{1em}
@@ -154,7 +152,7 @@ const lastName: string | undefined | null =
 type MaybeString = string | undefined | null;
 
 const firstName: MaybeString = getFirstName();
-const lastName: MaybeString = getFirstName();
+const lastName: MaybeString = getLastName();
   \end{minted}
 \end{frame}
 
@@ -243,7 +241,7 @@ type Maybe<T> = T | undefined | null;
     I shall write you in the future and tell you what \sout{value} type to
     bind to \texttt{T}. Until then, all my love. \\
 
-    Forever yours, \\
+    Possibly yours (as I have trouble with commitment), \\
     \texttt{Maybe}, generic type.
   \end{tcolorbox}
 \end{frame}
@@ -270,7 +268,7 @@ type MaybeString = Maybe<String>; // => String | undefined | null
 
     I am in receipt of your compile-time missive. It is with pleasure that
     I have bound the type \texttt{String} to \texttt{T}, and proceeding,
-    \textit{mutatis mutandis}, in the witty \& delightful \& v. droll manner
+    \textit{mutatis mutandis}, in the witty \& delightful \& v.\ droll manner
     that you have prescribed, thereby obtained the result
     \texttt{String | undefined | null}. \\
 
@@ -295,26 +293,162 @@ type MaybeString = Maybe<String>; // => String | undefined | null
   \end{itemize}
 \end{frame}
 
-% \begin{frame}[fragile]
-%   \frametitle{Generics, continued}
+\begin{frame}[fragile]
+  \frametitle{Generics, continued}
 
-%   Some more terminology: the thing inside the parentheses is an
-%   \textit{argument}. (Think \textit{a} for \textit{a}ctual.)
+  So we have--- \\
 
-%   \vspace{1em}
+  \begin{minted}{typescript}
+// Shorthand syntax: const stringArray: string[] = ...
+const stringArray: Array<string> =
+  ["Some", "good", "stuff"];
 
-%   \begin{minted}{typescript}
-% doubleIt(4); // => 8
-%   \end{minted}
+interface Bloop {
+  grapplingHookLength: number;
+  presenceOfPiranas: boolean;
+}
 
-% \end{frame}
-
-\begin{frame}
-  \frametitle{Runtime vs.\ Compile Time}
+const myBloopArray: Array<Bloop> = [
+  { grapplingHookLength: 27, presenceOfPiranas: true },
+  { grapplingHookLength: 5280, presenceOfPiranas: false },
+];
+  \end{minted}
 \end{frame}
 
 \begin{frame}
+  \frametitle{Runtime vs.\ Compile Time}
+
+  Repeat this to yourself as a mantra: \\
+
+  \begin{quote}
+    TypeScript doesn't exist when my code runs. \\
+    TypeScript doesn't exist when my code runs. \\
+    TypeScript doesn't exist when my code runs. \\
+    TypeScript doesn't exist when my code runs. \\
+    TypeScript doesn't exist when my code runs.
+  \end{quote}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Runtime vs.\ Compile Time, continued}
+  \small
+  \begin{minted}{typescript}
+interface TypeScriptDisillusionment {
+  intensity: number;
+  isRecoverable: boolean;
+}
+
+const myFeelingsRightNow: TypeScriptDisillusionment = {
+  intensity: 42,
+  isRecoverable: true,
+}
+
+if (typeof myFeelingsRightNow === "TypescriptDisillusionment") {
+  console.log("Maybe I'm not so disillusioned after all.");
+} else {
+  console.log("I'm very disillusioned.")
+}
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Runtime vs.\ Compile Time, continued}
+  Error message: \\
+
+  \small
+
+  \begin{lstlisting}
+This condition will always return 'false' since the types '"string" |
+"number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" |
+"function"' and '"TypescriptDisillusionment"' have no overlap.(2367)
+    \end{lstlisting}
+
+  Output (transpiled despite compiler errors): \\
+
+  \begin{lstlisting}
+[LOG]: "I'm very disillusioned."
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Runtime vs.\ Compile Time, continued}
+  \begin{quote}
+    TypeScript doesn't exist when my code runs. \\
+    TypeScript doesn't exist when my code runs. \\
+    TypeScript doesn't exist when my code runs. \\
+    TypeScript doesn't exist when my code runs. \\
+    TypeScript doesn't exist when my code runs.
+  \end{quote}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Type Guards}
+  \small
+
+  That's the main point. Is there any solution? Yes, kind of. \\
+
+  \begin{tcolorbox}
+    Yo, TypeScript, programmer here. I know you get all weird and start
+    yelling about, ``I just \emph{can't} with these runtime types'' and all.
+    I get it. But like, you trust me, right? I mean, you always let me say
+    \texttt{any} and \texttt{@ts-ignore} and stuff, right? \\
+
+    Okay, so I wrote this function that I \emph{promise} will figure out the
+    types at runtime. No, no, don't freak out. Just look at it, will you?
+    Yes, at compile time. Yes, I know it doesn't run at compile time. You're
+    missing my point. \\
+
+    I promise it will work at \emph{runtime} to figure out the types. So can
+    you \textit{please} look at it at \emph{compile} time to make sure I'm
+    getting everything else right. Aww, you're the best TypeScript.
+  \end{tcolorbox}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Type Guards, continued}
+
+  \begin{enumerate}
+    \item \href{https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgAoRMg3gKGcga1ABMAuZAZzClAHMBuPZUAgYQHsAbdqcqmkAyZgAFsAQEQEChT7U6jAL44coSLEQoAYuwCu4OKHSYIAD0ghiFNBmxMQwAEYAVAJ4AHCHIFD8MYJycdACyEAgicA4UALbeCjjKquDQ8EjIAEpcnNAA4hCcyGYWVjaYuPjAFOkQ1IhgcI7Z5I7sXBCRSioI7CBUlOFQ7MR00BTG5Dr69Ua2AD4ZWbn5yAC8TMFwogB0UJHE7NEAFACUyAB8yAAMWwCsTPgA-Hb4Ly9EluQARAAycNGuyAATJcQZ8ADT3V7MEBsLg8L4AZRE0AA7q1iMgACLAP6gFA5KAQDDgyGvUTiSTSWTIT6hYa6aIkqEvBwuDxeGk5LjEJnM5D+QIhMIRKKxGmoSpgHq817KV7kcp895kcUBdhgZA5QEyqEsDjcXg0gBCnF0EB1ZLEEikMi+1wA7NFGRC+cwqjVdgh6o0OdQzS6oYpGKoYMhDocKAMhiMoGNbHBrJMDDMQMctqy3J5kABCFYrZD6YgQfxSYinRXdXptLbcWiHAAGADlxCgACRYCNR4aCUbGZAJ5BJ6YgYxpjPsxTIVnZ+vHJSFTgUFAVnoUau1w6Q+sASWQtDNMmQrj0yHbpLDkZEg27tF78esmUCS04acq1VqXoa2WQT0++0+yBfPsIAAORgJ8kKTu4hIwNAyCiJsyAIEEEgAmuhb1kwc4JDgQA}{Manual non typesafe approach.}
+    \item \href{https://www.typescriptlang.org/play?#code/MYewdgzgLgBBwAsBOIAmBLMBzApkiAagIYA2ArjgFwxhkC2ARnjAD5xRKZYwC8AUDBgBZIlAQA6JETCoQdABQBKGAD4YABnEBWGAH4YAIhwAPDjjo4Y5LGQacQZCGBwQIBmNQCcAbj590AGYw8lAAngAOOCBB8MhoXHiEpBS8PDyGtIx4BsoA3gIwoJAgJDjiJCBY8gAGADJkwADWoYWi7OgkJDAIRBAwACS58rEoGNiJxOSWAFQwAEzKAPTzAL5W6ABuLtWKvms4JBCW+YJFECVlFVUj8eP4kxTiUCAAquGRSADCvThKu3wrIA}{Reminder of TS awesomeness.}
+    \item \href{https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgAoRMg3gKGcga1ABMAuZAZzClAHMBuPZUAgYQHsAbdqcqmkAyZgAFsAQEQEChT7U6jAL44coSLEQoAYuwCu4OKHSYIAD0ghiFNBmxMQwAEYAVAJ4AHCHIFD8MYJycdACyEAgicA4UALbeCjjKquDQ8EjIAEpcnNAA4hCcyGYWVjaYuPjAFOkQ1IhgcI7Z5I7sXBCRSioI7CBUzBQ6+vVGtgC8yAAUniDkxgCU5NP9yIMGI5ijAHxMU7Zw1qvDIPMAdA4uHigAhKPj+sQQ-lLEjDjdvWCU4VDsxHTQFGM5EOhmOtgAPhksrl8shRkxgnBRCcoJFiOxohM5shNsgAAwnACsTHwAH47PhKZSiJZyAAiAAycGirmQACY8Zy6QAaElU5ggNhcHj0gDKImgAHdWsRkAARYDM0AoHJQCAYHl8qmicSSaSyZB00J-XTRTX8ynnNyeek5LjEc0W5D+QIhMIRKKxQ2oSpgHqOqnKKnkcpOmlkb0BdifHJsgP8lgcbi8Q0AIU4ugg8e1YgkUhk9IJAHZombeU7+tVagh6o0vMhqJny-zFK9gDBJpUQesJhRvr9-lBARg5tjQ+8KG0TtxaBMAAYAOXEKAAJFg+yIfn9BADjGcnNaIIpkOcrnO5kpCpwKChxz1J9lp+xZ3y5wBJZC0TMyZCuPTINctS+TcBx3Ic90qKtURrBpsmQck6XROlkHpdEQAAcjAOk+WPdw1RgaAGwiT4ECCCRWUne45yYC8EhwIA}{Demo of a type guard.}
+    \item \href{https://www.typescriptlang.org/play?noUncheckedIndexedAccess=true&noUnusedLocals=true&noUnusedParameters=true#code/JYOwLgpgTgZghgYwgAgAoRMg3gKGcga1ABMAuZAZzClAHMBuPZUAgYQHsAbdqcqmkAyZgAFsAQEQEChT7U6jAL44coSLEQoAYuwCu4OKHSYIAD0ghiFNBmxMQwAEYAVAJ4AHCHIFD8MYJycdACyEAgicA4UALbeCjjKquDQ8EjIAEpcnNAA4hCcyGYWVjaYuPjAFOkQ1IhgcI7Z5I7sXBCRjPgI7FTdAIKVTcggutGO0Eoq3SBUzFVZufnIALzIABSeIOTGAJTkm3MZC1B5BcsAfEwbtnDWmYGLnDsAdJXVtQj1jSgAhMur+mIEH8UmIjBw01mFHCUHYxDo0AoxnIOn09SMtgAPkcHiclssmME4KJnlBIsR2NE1jtkOdkAAGZ4AViY+AA-HZ8FzCCRyAAiVABdhgZAANUilTEgjQ7DUfIANKyuSwONxeMg+QAJaCOUDIABC2V0yAAItI0LCYOxLBBdFAKAqlfhROJJNJZBrQvDRo7ufgHC4PF4NTkuMRfX7-IEQmEIlFYhrWHAoPJiLQUBwQAA3aDqCPct41MmfBpDai6CCK7nKbnkcp+oiWfmC7ginIAJnzypAbC4PH5horXedYgkUhk-MZAHZotFh3N3sWvmWoBWq37ur12AMKEMp+v8IpwcAYOs3sdTmtoSJYfDBIjdjT65C2s9uLQ1kqAAYASVPrj0ZAggIFBRGkFBaHYZAwCgjgt2QclkHTEU4GQRx9HCZBrQQwYUAAEiwa9bwRe1jGeTcwH6XDFC-JgdiUQpOAoFBn2tChX3fNYvwAOXEfDCJhOESKRDBngDNxPEUYYnB+L96ISHAgA}{Not totally typesafe.}
+    \item \href{https://www.typescriptlang.org/play?noUncheckedIndexedAccess=true&noUnusedLocals=true&noUnusedParameters=true#code/KYOwrgtgBACqAqBPADsKBvAUFKAxA9mCAC4CGAliHCFALxQBEBRZl1DANNlAEr4A2-YACcA4sH51GfQSPH9OmAL6ZMlYiIBmpAMZpqGbgGtKAEwBcUAM7FhlAOYBubpSMBhAfmGWbdkE+5iAAtyHSMQYCsrH1sHZxxUECRUS2pk4GcVNRItXTRmEgoqUChgAA8NEFMrWBKsHBByACN0mL8AnE1yQQcAWWAdINJGqwg2uOVVdVy9XgEhMQlSitBq2pp6qHIrHmBbXTImoUsm-AFgYfioHXwbG4BBbeOocAgmkUzVG5Aba0HhfCmBwiKzUSwFVjFGgAHzmskWklo3F6pGCADphMNTPgIAAKACUUAAfFAAAxogCs3BwAH5DDgGVATFVLAwYN18MQoAA1YbbEL+WD4dSKRk4VwefheVkACRETUoUAAQkIwFAACKRWAAzT4KrAMDCKyisXBULhSLRRj9IGQE2MxotFDAVmiASme0Mro9fz9QZ80astykYSxUz2NAeEAANxEGmEnvFOz2mJ0h2etjAwC4YqgiVa63SaIhRWoOYZKkZlk2jOZFkY7KlXNEACZE1sQO5PN5GCqs+2zWEIlFWeSAOwQCDt7a7fZp0hHF1QTPZ6kMm53fCPKzPMflxn552pBDOtEyBbyfdQJTOTDfX4z+ZyJb0XGJY8gfGWRJbGrn5+IkS3CJGih6oHQtD0Gkp7-git7kJoUC4o+8LyLiVj-ICwJGtQ+KEps97nGiUr2Lia4AAYAJKIYghBQPw5BGGgwSRGg9j4MuHEeJuUBYlAEZcqQUBNEQgxQHqvFPGgAAk6AYUEAJAv4ILUGiG7EA8UlKOR3D4pkpT8FYaAEXqVhESRuLkQAcqEMlyZhSkRjhoBoo66RKC8zQAITkXpkxAA}{Using a dedicated field.}
+  \end{enumerate}
+\end{frame}
+
+
+\begin{frame}[fragile]
   \frametitle{Utility Types}
+
+  \begin{minted}{typescript}
+interface MysteryPerson {
+  firstName?: string;
+  lastName?: string;
+}
+
+const myMysteryPerson: MysteryPerson = {};
+
+type ForthrightPerson = Required<MysteryPerson>;
+
+// Type error: Type '{}' is missing the following properties from type
+// 'Required<MysteryPerson>': firstName, lastName ts(2739)
+const myForthrightPerson: ForthrightPerson = {};
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Advanced Types}
+
+  Let's build our own Utility Types! \\
+
+  \href{https://www.typescriptlang.org/play?noUncheckedIndexedAccess=true&noUnusedLocals=true&noUnusedParameters=true&strict=true&allowSyntheticDefaultImports=false&noPropertyAccessFromIndexSignature=true&noFallthroughCasesInSwitch=true#code/JYOwLgpgTgZghgYwgAgMoQLbALIE8DOkUuACtPgPYjIDeAUMsjMFIQHJwYQD8AXMoSigA5gG4GyADZx2nCP0EjxAXzp0wuAA4o8AJQgBHAK4sIAEwA8AFQB8yALzIA9E+QBJDJsmYI4ZF3UtHVI4KDBgOElrO0cXd09vLj8AwO1kPEJoUnIqB3SQsIio9CwMomzWKhtxDTSAMQowgAshYSawMkrqRz1DEyhzCxKcAnLOyhBqoA}{Dauntlessly live coding.}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{\texttt{const} and \texttt{readonly}}
+  \begin{figure}
+    \href{https://www.typescriptlang.org/play?noUncheckedIndexedAccess=true&noUnusedLocals=true&noUnusedParameters=true&ssl=8&ssc=3&pln=7&pc=4#code/MYewdgzgLgBADgJwJZigQQQghgTwOpJQAWAciCQK4A2VEMAvDABRaYBcMG2OAPGBQFsARgFMEMAD4x+NAHwBKDgDcQSACYNZMAN4AoGDABmIcUyojYSBjAAMAbhhWeMVggB05sAHNiDgNR+SPI6+gaOhswsmADaSAC61jJU8sF6YWGgqCgUInahBgC++TCZECDmHiBeUQixcfJ5hboFebqlsAI4XLgc3bz8wmKS0tRUWozRAMwANCM0swCsswDss0mzAIw2ca2IKOiYuATEZJQ0EEydfQ26beBlFVRVl12HODdAA}{\includegraphics[width=0.7\textwidth]{using_that_word.jpg}}
+  \end{figure}
 \end{frame}
 
 \begin{frame}
@@ -326,21 +460,7 @@ type MaybeString = Maybe<String>; // => String | undefined | null
 \end{frame}
 
 \begin{frame}
-  \frametitle{\texttt{const} and \texttt{readonly}}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Type Guards}
+  \frametitle{Conditional Types}
 \end{frame}
 
 \end{document}
-
-% \begin{equation*}
-%   doubleIt(x)=\begin{cases}
-%     2 \quad      & \text{if} \, x = 1 \\
-%     4 \quad      & \text{if} \, x = 2 \\
-%     6 \quad      & \text{if} \, x = 3 \\
-%     8 \quad      & \text{if} \, x = 4 \\
-%     \vdots \quad & \vdots
-%   \end{cases}
-% \end{equation*}

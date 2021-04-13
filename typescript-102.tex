@@ -166,11 +166,11 @@ const lastName: MaybeString = getLastName();
   Imagine we whip up a library for this \textit{Maybe} idea.
 
   \begin{minted}{typescript}
-type MaybeString = String | undefined | null;
-type MaybeNumber = Number | undefined | null;
-type MaybeBoolean = Boolean | undefined | null;
-type MaybeSymbol = Symbol | undefined | null;
-type MaybeObject = Object | undefined | null;
+type MaybeString = string | undefined | null;
+type MaybeNumber = number | undefined | null;
+type MaybeBoolean = boolean | undefined | null;
+type MaybeSymbol = symbol | undefined | null;
+type MaybeObject = object | undefined | null;
   \end{minted}
   \vdots
 
@@ -218,7 +218,7 @@ type MaybeName = Name | undefined | null;
   \begin{minted}{typescript}
 type Maybe<T> = T | undefined | null;
 
-type MaybeString = Maybe<String>;
+type MaybeString = Maybe<string>;
 type MaybeName = Maybe<Name>;
   \end{minted}
 \end{frame}
@@ -296,10 +296,7 @@ type MaybeString = Maybe<String>; // => String | undefined | null
 \begin{frame}[fragile]
   \frametitle{Generics, continued}
 
-  So we have--- \\
-
   \begin{minted}{typescript}
-// Shorthand syntax: const stringArray: string[] = ...
 const stringArray: Array<string> =
   ["Some", "good", "stuff"];
 
@@ -316,6 +313,13 @@ const myBloopArray: Array<Bloop> = [
 \end{frame}
 
 \begin{frame}
+  \frametitle{React}
+
+  \href{https://codesandbox.io/s/exciting-pond-9t0zh}{To update} \\
+  % \href{https://codesandbox.io/s/modern-dream-gg8x2}{Original}
+\end{frame}
+
+\begin{frame}
   \frametitle{Runtime vs.\ Compile Time}
 
   Repeat this to yourself as a mantra: \\
@@ -327,6 +331,8 @@ const myBloopArray: Array<Bloop> = [
     TypeScript doesn't exist when my code runs. \\
     TypeScript doesn't exist when my code runs.
   \end{quote}
+
+  \href{https://www.typescriptlang.org/play?noUncheckedIndexedAccess=true&noUnusedLocals=true&noUnusedParameters=true&removeComments=true\#code/MYewdgzgLgBApmArgWxgJQIbDgGQQcygAsYBvAKBhgHkw4ARDATxgF4YAiARg4BpKYAZSgZ8cTNjacATH3IBfcqEiwEKdFjgBhDFDj4QAJxYUqAdSMAbACYAVEIkNSOZ23KoAFQyEFxDASzgIZy8QdxgdPQNjWjhnHn4qSP0jJlsAdxBnWX5Fcn8wPUMAM00YD0sy0xhkRDB-YH8ABwxLfygmAC4YaACwfABuAVA6qGNurQdC4yG8gqLSyQltSogIf2KG3X9wMgFLAmJu5bx+4iGqYF0U8Y1sZOimWfJyDqa4tAc9KQBtCs1eOVKtgALpDfKFPyLOIAIX8AGtxFUBGAMMg4N1egVBgJvIg9McvnALjBrP5oBgwNhukhkAAjPwk4CrdabK5QHZgY6aLQsjZbDngZ6vJjvCJTMYsVgCAA+nAAgsV8ERKeSRGAOLLOABRypgawwACSED11ggmqoco48ssdNVGAtMCtNrEAQdWut6ICVzAQjRIHdloV+qMhkDTuDBkqjud-UQ-ks0Y98sKGEMwA5VxjwY5+EQGBglINMLTdMQ1nDzsMYkKBUrCsM6Pq9ethkQduz1sQvVa-hb8u7Yz7nflAC8-Hb-AArSmdksq5AYc0e+dhgpzyn4SrWIJEDeGO3WEDLoMcGFwSptk8Rs8X-D+FBzi-+cdP+oald+WoVudEfGzlcQDaAA3PsYAACgqRw60FVFLCEERvhAYoAEo53ADB-EMOBAUEeYYAAUUHbZu0LfU-Q7QCIGbMiDQACT8ccDFA1F0KgCB0kpFsYQcYC4FgY1TTnMNRwTYT2nJEhDX1PtfWobBKRgWw-ACKBUmEuo4H8GBGCvCBWjROdEEsfA02HFdHHhOsYAAMSXMILLbGTOx0OksgANT8HcXLRNyyRbHQvRAcAfNRH8PR0JhF19QSi2vK0tAQMZWhgRVvUUtA4Cads2mAFyVWsfKEzgIrWIiogAmgRdgli-UXJAUBgnAgBpOBn36FCjRNOL6ssEB6XM09JmQIxj3q-oHKG8ADEBeg4BG4Aw0zdAspyhoYGQmBiBKiLgvhLrTXizhJgpdAthcgAX75rAAckNYCQCwnahu8bYAvbd6wwAc4wSaby0UUrxc8dgCIQabzmsBF0MeFO3oKd-Dc-F-Dh-qCnOj16DR+ofRW7K6VyzsCOAfMj0MIn8FFKAifgwRWmAjAyaJgBHfM1LdeCAHF4zoFsCNU7C+egcBwatAiOO2eoieIHYmlFzg7MseFTQOuKIIAWXpusIDQj07O8OJarNTsbOnFG9YKIS9bDKlnpvGzsKpEhudklsHYQUHyiApg6HWN3Hc9wQviIPxfWUwxVKMQIjo4TmMDcj9TzjgaW05uAjHvVOv0pJhO05lUyqTxGw0sERyY9TnsLgbA86rsAraTx3GdT0mLwcd48-zZBO+uRckyTxBQ4gOBc4rnm4BbgoJ4AWjhNYMEQTumC4zs6MwjlV4nwwDSN2iYHV4Asbgnfuv1GO6O9oQ2tX8BrEcJcb-6GBmum1e6lM4xO0NbAG5vaT-K-iGX28sOCGhthBWKyB1qZXxrlDaqEv5hmZogi8RYv4mjiJtTWic-4QDDBeL+IhLCj1PAAKTRJhLMHpyEtBwVaUhfhh4kJvKQowFY6GcGahgUcGB4REApBwjgrUwDL07M1LCiNthiKMBPCCc0FpLXWh4dOTQDg3WCDAtawB4G61PC-QWgJNEE3WshMRiBOLtDEUwasTBRwCM7DgX65QVFqOCPIhqijtFGMJh6RxUBQItjwHaMAIVfFBBAMQP6VocCIz8CAmJdJRG+MCKDPQKgtKCJicQfMzYHGIAAB7zSRtWTsmsrhRM4JrCspkIBXHLqeTWlR0jmwaQZJgftSmtDJHxGOjSWk3kaSITphgIAqkTKrM+wyOT1FZnbK0mtoLqhAQs1SD5enMAiXoUpcB8kNAqRwdWDRvDAILOBGycAdxLQuQha4wRkK6IGUBI8DNDGrWMdo0xHp1YYVAKU6aQFlngDSfobwfzCjDwjroP53hgC-K+SAHhA1ZmlOXlDNMnYAByaJEYgKxY4ReHoMVZVaJi-iIdDCHVJekCIrQLkixbES6lAAtCev8rQYq2GGPMDL-CukxbyuJPLB6YqMMUIC+0jYisMMQfemgjy5MJUYbahhfSazdKiCZxtFWGE4swq01Boqdg8LwtUAFTzGsqAS81tLoBT1wohTBxQjVcUXM67KBZGUwBdrzZ1XL8x6s4MotsRqwZtCaHLX2Rr2hXCwoIjwQE0EenjdKxAplLBGsHtKrIaA9mdgAIq6HRR6NAABLuonJOyfGiiAtA3Y-a+nOZc7YoTTxoE4vqFsdN8IlmlUQEtBxkABo4F2woMAGIHFRICeUtSEDrF2EWJSlV1SkgLFoOoKpOwjtgOIqA7E95EtAjHLdMAcCIEaJ2zCo61XTIgu7J2MAWjSoeVaY9HhAgRziAuw5sy+qCOPe5Ao2BR0Lu2l6puZJI0ejpiNC9qqzIhM3U4+w6I95eEA80OZnA6blm0vKMMdIQG+DoGmzdE5CMj1BheA4R731hhPenOgm7sQYCaDIpjV6MBpjSXI-EntH1QGfVhvqDMrKduEwgQjQF+q7CNke-qvZO3B1SsUdKm6lNpwzmBEDIchBKbpvqZpntZNqfxCQQQ5YzU3kEC0dcUGAgnspPCTtFm-3QVROiTdDNbRpgNAu8hcGmAIE3ekC5QWoPNKgOOClibTyCGsbJVK+G8ZaM7LYTC7bAShBYpITaWgwaFxvGlhGVl7EejS2AHhzZAQAFV6h6ANN4kxTqysqgTDFwr-gRqGGnngaAmGOD2AMKlkAiJLXDf6C2WwfR-AVl8+RewdohtlfLR05bMMR6pcsk2U1gjbCWWCAunQeyaqny1aePbXmrU3mq6ZDtnZqvwjXIxj0tX2jXLw-HQiUCrkx1e-V5+2IjyoE2pXCesAYSqUvfupV5KYrYTZZwP71zhC3PgalL0GNTxI4NCjvQwRDkhKcNQfExDsSat+22blQ7qujgZCV9UnZ3KUjZldq0nk6CjkHpUCCPEQJmQym8uB9zGeBFgFi7uHoAPVgKOTnnqzRmCY4FL+8MVTtNWqwAOkEBrxXZhWhtAO+RGy+I6gtjMEEIovo6YqjDJ2AAmvNMLp4mW+RAUyzrdo6QhY4OCZQ0AH1mQgJ8D6-h8ndDhIiZYUhqjuYxIGwP6AHCTnyeEPEBIYA-AEFQUgNRy2NBaG0Do3QODDTlgAC-wIxwEIxphdAVjbGuMB5CJCoGQXPONmi9iL5wYPye+AwBr5KYvDtKSN+bwIEELeyQCOpDAaQABWAAnC35kS5WQCk5N0aoVAJ2ECINybApw98a9iIwJgLfLjXEeAf7QV-Uga4sBSuwDhDAt-H-IAYQA}{Example}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -408,11 +414,11 @@ This condition will always return 'false' since the types '"string" |
   \frametitle{Type Guards, continued}
 
   \begin{enumerate}
-    \item \href{https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgAoRMg3gKGcga1ABMAuZAZzClAHMBuPZUAgYQHsAbdqcqmkAyZgAFsAQEQEChT7U6jAL44coSLEQoAYuwCu4OKHSYIAD0ghiFNBmxMQwAEYAVAJ4AHCHIFD8MYJycdACyEAgicA4UALbeCjjKquDQ8EjIAEpcnNAA4hCcyGYWVjaYuPjAFOkQ1IhgcI7Z5I7sXBCRSioI7CBUlOFQ7MR00BTG5Dr69Ua2AD4ZWbn5yAC8TMFwogB0UJHE7NEAFACUyAB8yAAMWwCsTPgA-Hb4Ly9EluQARAAycNGuyAATJcQZ8ADT3V7MEBsLg8L4AZRE0AA7q1iMgACLAP6gFA5KAQDDgyGvUTiSTSWTIT6hYa6aIkqEvBwuDxeGk5LjEJnM5D+QIhMIRKKxGmoSpgHq817KV7kcp895kcUBdhgZA5QEyqEsDjcXg0gBCnF0EB1ZLEEikMi+1wA7NFGRC+cwqjVdgh6o0OdQzS6oYpGKoYMhDocKAMhiMoGNbHBrJMDDMQMctqy3J5kABCFYrZD6YgQfxSYinRXdXptLbcWiHAAGADlxCgACRYCNR4aCUbGZAJ5BJ6YgYxpjPsxTIVnZ+vHJSFTgUFAVnoUau1w6Q+sASWQtDNMmQrj0yHbpLDkZEg27tF78esmUCS04acq1VqXoa2WQT0++0+yBfPsIAAORgJ8kKTu4hIwNAyCiJsyAIEEEgAmuhb1kwc4JDgQA}{Manual non typesafe approach.}
-    \item \href{https://www.typescriptlang.org/play?#code/MYewdgzgLgBBwAsBOIAmBLMBzApkiAagIYA2ArjgFwxhkC2ARnjAD5xRKZYwC8AUDBgBZIlAQA6JETCoQdABQBKGAD4YABnEBWGAH4YAIhwAPDjjo4Y5LGQacQZCGBwQIBmNQCcAbj590AGYw8lAAngAOOCBB8MhoXHiEpBS8PDyGtIx4BsoA3gIwoJAgJDjiJCBY8gAGADJkwADWoYWi7OgkJDAIRBAwACS58rEoGNiJxOSWAFQwAEzKAPTzAL5W6ABuLtWKvms4JBCW+YJFECVlFVUj8eP4kxTiUCAAquGRSADCvThKu3wrIA}{Reminder of TS awesomeness.}
-    \item \href{https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgAoRMg3gKGcga1ABMAuZAZzClAHMBuPZUAgYQHsAbdqcqmkAyZgAFsAQEQEChT7U6jAL44coSLEQoAYuwCu4OKHSYIAD0ghiFNBmxMQwAEYAVAJ4AHCHIFD8MYJycdACyEAgicA4UALbeCjjKquDQ8EjIAEpcnNAA4hCcyGYWVjaYuPjAFOkQ1IhgcI7Z5I7sXBCRSioI7CBUzBQ6+vVGtgC8yAAUniDkxgCU5NP9yIMGI5ijAHxMU7Zw1qvDIPMAdA4uHigAhKPj+sQQ-lLEjDjdvWCU4VDsxHTQFGM5EOhmOtgAPhksrl8shRkxgnBRCcoJFiOxohM5shNsgAAwnACsTHwAH47PhKZSiJZyAAiAAycGirmQACY8Zy6QAaElU5ggNhcHj0gDKImgAHdWsRkAARYDM0AoHJQCAYHl8qmicSSaSyZB00J-XTRTX8ynnNyeek5LjEc0W5D+QIhMIRKKxQ2oSpgHqOqnKKnkcpOmlkb0BdifHJsgP8lgcbi8Q0AIU4ugg8e1YgkUhk9IJAHZombeU7+tVagh6o0vMhqJny-zFK9gDBJpUQesJhRvr9-lBARg5tjQ+8KG0TtxaBMAAYAOXEKAAJFg+yIfn9BADjGcnNaIIpkOcrnO5kpCpwKChxz1J9lp+xZ3y5wBJZC0TMyZCuPTINctS+TcBx3Ic90qKtURrBpsmQck6XROlkHpdEQAAcjAOk+WPdw1RgaAGwiT4ECCCRWUne45yYC8EhwIA}{Demo of a type guard.}
-    \item \href{https://www.typescriptlang.org/play?noUncheckedIndexedAccess=true&noUnusedLocals=true&noUnusedParameters=true#code/JYOwLgpgTgZghgYwgAgAoRMg3gKGcga1ABMAuZAZzClAHMBuPZUAgYQHsAbdqcqmkAyZgAFsAQEQEChT7U6jAL44coSLEQoAYuwCu4OKHSYIAD0ghiFNBmxMQwAEYAVAJ4AHCHIFD8MYJycdACyEAgicA4UALbeCjjKquDQ8EjIAEpcnNAA4hCcyGYWVjaYuPjAFOkQ1IhgcI7Z5I7sXBCRjPgI7FTdAIKVTcggutGO0Eoq3SBUzFVZufnIALzIABSeIOTGAJTkm3MZC1B5BcsAfEwbtnDWmYGLnDsAdJXVtQj1jSgAhMur+mIEH8UmIjBw01mFHCUHYxDo0AoxnIOn09SMtgAPkcHiclssmME4KJnlBIsR2NE1jtkOdkAAGZ4AViY+AA-HZ8FzCCRyAAiVABdhgZAANUilTEgjQ7DUfIANKyuSwONxeMg+QAJaCOUDIABC2V0yAAItI0LCYOxLBBdFAKAqlfhROJJNJZBrQvDRo7ufgHC4PF4NTkuMRfX7-IEQmEIlFYhrWHAoPJiLQUBwQAA3aDqCPct41MmfBpDai6CCK7nKbnkcp+oiWfmC7ginIAJnzypAbC4PH5horXedYgkUhk-MZAHZotFh3N3sWvmWoBWq37ur12AMKEMp+v8IpwcAYOs3sdTmtoSJYfDBIjdjT65C2s9uLQ1kqAAYASVPrj0ZAggIFBRGkFBaHYZAwCgjgt2QclkHTEU4GQRx9HCZBrQQwYUAAEiwa9bwRe1jGeTcwH6XDFC-JgdiUQpOAoFBn2tChX3fNYvwAOXEfDCJhOESKRDBngDNxPEUYYnB+L96ISHAgA}{Not totally typesafe.}
-    \item \href{https://www.typescriptlang.org/play?noUncheckedIndexedAccess=true&noUnusedLocals=true&noUnusedParameters=true#code/KYOwrgtgBACqAqBPADsKBvAUFKAxA9mCAC4CGAliHCFALxQBEBRZl1DANNlAEr4A2-YACcA4sH51GfQSPH9OmAL6ZMlYiIBmpAMZpqGbgGtKAEwBcUAM7FhlAOYBubpSMBhAfmGWbdkE+5iAAtyHSMQYCsrH1sHZxxUECRUS2pk4GcVNRItXTRmEgoqUChgAA8NEFMrWBKsHBByACN0mL8AnE1yQQcAWWAdINJGqwg2uOVVdVy9XgEhMQlSitBq2pp6qHIrHmBbXTImoUsm-AFgYfioHXwbG4BBbeOocAgmkUzVG5Aba0HhfCmBwiKzUSwFVjFGgAHzmskWklo3F6pGCADphMNTPgIAAKACUUAAfFAAAxogCs3BwAH5DDgGVATFVLAwYN18MQoAA1YbbEL+WD4dSKRk4VwefheVkACRETUoUAAQkIwFAACKRWAAzT4KrAMDCKyisXBULhSLRRj9IGQE2MxotFDAVmiASme0Mro9fz9QZ80astykYSxUz2NAeEAANxEGmEnvFOz2mJ0h2etjAwC4YqgiVa63SaIhRWoOYZKkZlk2jOZFkY7KlXNEACZE1sQO5PN5GCqs+2zWEIlFWeSAOwQCDt7a7fZp0hHF1QTPZ6kMm53fCPKzPMflxn552pBDOtEyBbyfdQJTOTDfX4z+ZyJb0XGJY8gfGWRJbGrn5+IkS3CJGih6oHQtD0Gkp7-git7kJoUC4o+8LyLiVj-ICwJGtQ+KEps97nGiUr2Lia4AAYAJKIYghBQPw5BGGgwSRGg9j4MuHEeJuUBYlAEZcqQUBNEQgxQHqvFPGgAAk6AYUEAJAv4ILUGiG7EA8UlKOR3D4pkpT8FYaAEXqVhESRuLkQAcqEMlyZhSkRjhoBoo66RKC8zQAITkXpkxAA}{Using a dedicated field.}
+    \item \href{https://bit.ly/3taav6c}{Manual non typesafe approach.}
+    \item \href{https://bit.ly/3uNRsPJ}{Reminder of TS awesomeness.}
+    \item \href{https://bit.ly/2OEFnNa}{Demo of a type guard.}
+    \item \href{https://bit.ly/2RsdNnw}{Not totally typesafe.}
+    \item \href{https://bit.ly/2RvwPt9}{Using a dedicated field.}
   \end{enumerate}
 \end{frame}
 
@@ -441,26 +447,85 @@ const myForthrightPerson: ForthrightPerson = {};
 
   Let's build our own Utility Types! \\
 
-  \href{https://www.typescriptlang.org/play?noUncheckedIndexedAccess=true&noUnusedLocals=true&noUnusedParameters=true&strict=true&allowSyntheticDefaultImports=false&noPropertyAccessFromIndexSignature=true&noFallthroughCasesInSwitch=true#code/JYOwLgpgTgZghgYwgAgMoQLbALIE8DOkUuACtPgPYjIDeAUMsjMFIQHJwYQD8AXMoSigA5gG4GyADZx2nCP0EjxAXzp0wuAA4o8AJQgBHAK4sIAEwA8AFQB8yALzIA9E+QBJDJsmYI4ZF3UtHVI4KDBgOElrO0cXd09vLj8AwO1kPEJoUnIqB3SQsIio9CwMomzWKhtxDTSAMQowgAshYSawMkrqRz1DEyhzCxKcAnLOyhBqoA}{Dauntlessly live coding.}
+  \href{https://bit.ly/3a5OVs1}{Dauntlessly live coding.}
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{\texttt{const} and \texttt{readonly}}
   \begin{figure}
-    \href{https://www.typescriptlang.org/play?noUncheckedIndexedAccess=true&noUnusedLocals=true&noUnusedParameters=true&ssl=8&ssc=3&pln=7&pc=4#code/MYewdgzgLgBADgJwJZigQQQghgTwOpJQAWAciCQK4A2VEMAvDABRaYBcMG2OAPGBQFsARgFMEMAD4x+NAHwBKDgDcQSACYNZMAN4AoGDABmIcUyojYSBjAAMAbhhWeMVggB05sAHNiDgNR+SPI6+gaOhswsmADaSAC61jJU8sF6YWGgqCgUInahBgC++TCZECDmHiBeUQixcfJ5hboFebqlsAI4XLgc3bz8wmKS0tRUWozRAMwANCM0swCsswDss0mzAIw2ca2IKOiYuATEZJQ0EEydfQ26beBlFVRVl12HODdAA}{\includegraphics[width=0.7\textwidth]{using_that_word.jpg}}
+    \href{https://bit.ly/32dLNpz}{\includegraphics[width=0.7\textwidth]{using_that_word.jpg}}
   \end{figure}
 \end{frame}
 
-\begin{frame}
-  \frametitle{React}
+\begin{frame}[fragile]
+  \frametitle{\texttt{const} and \texttt{readonly}, continued}
+
+  \begin{minted}{typescript}
+type ArrayForever<T> = readonly T[];
+
+const myArray: ArrayForever<Number> = [1, 2, 3];
+
+// Error: Index signature in type 'ArrayForever<Number>'
+// only permits reading.
+myArray[0] = 33;
+
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{\texttt{const} and \texttt{readonly}, continued}
+  \small
+
+  \begin{minted}{typescript}
+interface Person {
+  readonly firstName: string;
+  readonly lastName: string;
+  yesterdaysDinner: string;
+}
+
+const ethan: Person = {
+  firstName: "Ethan",
+  lastName: "Kent",
+  yesterdaysDinner: "Rotisserie Chicken",
+};
+
+// Fine
+ethan.yesterdaysDinner = "Bananas Foster";
+
+// Error: Cannot assign to 'lastName' because it is a read-only property.
+ethan.lastName = "Vigliodogsworthy";
+
+  \end{minted}
 \end{frame}
 
 \begin{frame}
   \frametitle{Index Types}
+
+  \href{https://bit.ly/3dVMzgx}{Fixme}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Conditional Types}
+
+  \href{https://bit.ly/3dXnfGX}{Implement me}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Conditional Types, continued}
+
+  \begin{minted}{typescript}
+type Validation<T> = (value: T) => boolean;
+
+type FormValidation = {
+  [k in keyof Form]: Form[k] extends object
+    ? {
+        [l in keyof Form[k]]: Form[k][l] extends object
+          ? { [m in keyof Form[k][l]]: Validation<Form[k][l][m]> }
+          : Validation<Form[k][l]>;
+      }
+    : Validation<Form[k]>;
+};
+\end{minted}
 \end{frame}
 
 \end{document}

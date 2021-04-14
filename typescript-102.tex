@@ -118,7 +118,6 @@ doubleIt(4); // => 8
   \end{tcolorbox}
 \end{frame}
 
-
 \begin{frame}[fragile]
   \frametitle{Generics, continued}
 
@@ -155,7 +154,6 @@ const firstName: MaybeString = getFirstName();
 const lastName: MaybeString = getLastName();
   \end{minted}
 \end{frame}
-
 
 \begin{frame}[fragile]
   \frametitle{Generics, continued}
@@ -279,7 +277,6 @@ type MaybeString = Maybe<String>; // => String | undefined | null
   \end{tcolorbox}
 \end{frame}
 
-
 \begin{frame}
   \frametitle{Generics, continued}
 
@@ -310,6 +307,40 @@ const myBloopArray: Array<Bloop> = [
   { grapplingHookLength: 5280, presenceOfPiranas: false },
 ];
   \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Utility Types}
+
+  \begin{minted}{typescript}
+interface MysteryPerson {
+  firstName?: string;
+  lastName?: string;
+}
+
+const myMysteryPerson: MysteryPerson = {};
+
+type ForthrightPerson = Required<MysteryPerson>;
+
+// Type error: Type '{}' is missing the following properties from type
+// 'Required<MysteryPerson>': firstName, lastName ts(2739)
+const myForthrightPerson: ForthrightPerson = {};
+  \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Advanced Types}
+
+  Let's build our own Utility Types! \\
+
+  \href{https://bit.ly/3a5OVs1}{Dauntlessly live coding.}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{\texttt{const} and \texttt{readonly}}
+  \begin{figure}
+    \href{https://bit.ly/32dLNpz}{\includegraphics[width=0.7\textwidth]{using_that_word.jpg}}
+  \end{figure}
 \end{frame}
 
 \begin{frame}
@@ -422,41 +453,6 @@ This condition will always return 'false' since the types '"string" |
   \end{enumerate}
 \end{frame}
 
-
-\begin{frame}[fragile]
-  \frametitle{Utility Types}
-
-  \begin{minted}{typescript}
-interface MysteryPerson {
-  firstName?: string;
-  lastName?: string;
-}
-
-const myMysteryPerson: MysteryPerson = {};
-
-type ForthrightPerson = Required<MysteryPerson>;
-
-// Type error: Type '{}' is missing the following properties from type
-// 'Required<MysteryPerson>': firstName, lastName ts(2739)
-const myForthrightPerson: ForthrightPerson = {};
-  \end{minted}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Advanced Types}
-
-  Let's build our own Utility Types! \\
-
-  \href{https://bit.ly/3a5OVs1}{Dauntlessly live coding.}
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{\texttt{const} and \texttt{readonly}}
-  \begin{figure}
-    \href{https://bit.ly/32dLNpz}{\includegraphics[width=0.7\textwidth]{using_that_word.jpg}}
-  \end{figure}
-\end{frame}
-
 \begin{frame}[fragile]
   \frametitle{\texttt{const} and \texttt{readonly}, continued}
 
@@ -525,6 +521,22 @@ type FormValidation = {
       }
     : Validation<Form[k]>;
 };
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Conditional Types, continued}
+
+  \begin{minted}{typescript}
+type ValidationFunction<T> = (value: T) => boolean;
+
+type ValidationHelper<T> = {
+  [k in keyof T]: T[k] extends object
+    ? ValidationHelper<T[k]>
+    : ValidationFunction<T[k]>;
+};
+
+type FormValidation = ValidationHelper<Form>;
 \end{minted}
 \end{frame}
 
